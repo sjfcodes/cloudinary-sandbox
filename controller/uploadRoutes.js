@@ -4,7 +4,7 @@ const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 require('dotenv').config();
 
-const upload = multer({ dest: './_temp' });
+const upload = multer({ dest: './utils/_temp-image-store' });
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -19,14 +19,26 @@ router.post('/upload', upload.single('myFile'), async (req, res) => {
     const { file: { filename, destination } } = req;
     const pathToFile = `${destination}/${filename}`;
     try {
-        const { url } = await cloudinary.uploader.upload(pathToFile,
-            {
+        const { url } = await cloudinary.uploader
+            .upload(pathToFile, {
                 resource_type: "image",
                 public_id: 'cloudinary-sandbox-demo', // folder name to store in cloudinary 
-            }, (error) => console.error(error)
-        )
+            },
+                (error) => {
+                    if (error) console.error(error)
+                }
+            );
+
+        /**
+         * the resourse is now hosted, send back the url to user.
+         * if you'd like to save the url to a db, do this here
+         */
+
         res.json(url);
-        unlink(pathToFile, (error) => console.error(error)); // delete file from _temp folder 
+        // delete file from utils/_temp-image-store folder 
+        unlink(pathToFile, (error) => {
+            if (error) console.error(error)
+        });
     } catch (error) {
         console.error(error);
         res.json({ msg: 'failure' });
