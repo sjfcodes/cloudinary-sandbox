@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const { unlink } = require('fs')
+const { unlink } = require('fs');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
-require('dotenv').config()
+require('dotenv').config();
 
 const upload = multer({ dest: './_temp' });
 
@@ -26,10 +26,10 @@ router.post('/upload', upload.single('myFile'), async (req, res) => {
             }, (error) => console.error(error)
         )
         res.json(url);
-        unlink(pathToFile, (error) => console.error(error))
+        unlink(pathToFile, (error) => console.error(error)); // delete file from _temp folder 
     } catch (error) {
         console.error(error);
-        res.json({ msg: 'failure' })
+        res.json({ msg: 'failure' });
     }
 });
 
