@@ -12,35 +12,27 @@ cloudinary.config({
     secure: true
 });
 
-router.post('/upload', upload.single('myFile')
-    , function (req, res) {
+router.post('/upload', upload.single('myFile'), (req, res) => {
+    console.log(req.body); // req.body will hold the text fields appended to your formData object
+    console.log(req.file); // req.file is the name of your file in the form above, here 'uploaded_file'
 
-        // req.body will hold the text fields, if there were any 
-        console.log(req.body);
-        // req.file is the name of your file in the form above, here 'uploaded_file'
-        console.log(req.file);
-        const { file: { filename, destination } } = req
+    const { file: { filename, destination } } = req;
+    const pathToFile = `${destination}/${filename}`;
 
-        const pathToFile = `${destination}/${filename}`
-        cloudinary.uploader.upload(pathToFile,
-            {
-                resource_type: "image",
-                public_id: 'cloudinary-sandbox-demo',
-            },
-            (error, result) => { console.log(result, error) }
-        )
-            .then(data => {
-                console.log(data);
-                res.json(data.url);
-            })
-            .catch(error => {
-                console.error(count, error);
-                res.json({ msg: 'failure' })
-            });
-
-
-    }
-);
-
+    cloudinary.uploader.upload(pathToFile,
+        {
+            resource_type: "image",
+            public_id: 'cloudinary-sandbox-demo', // folder name to store in cloudinary 
+        }, (error, result) => console.log(result, error)
+    )
+        .then(data => {
+            console.log(data);
+            res.json(data.url);
+        })
+        .catch(error => {
+            console.error(error);
+            res.json({ msg: 'failure' })
+        });
+});
 
 module.exports = router;

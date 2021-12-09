@@ -11,6 +11,7 @@ window.addEventListener('load', function () {
 
         const formData = new FormData();
         formData.append('myFile', myFile);
+        formData.append('item1', 'another item from the form')
 
         fetch('/api/upload', {
             method: 'POST',
