@@ -6,18 +6,29 @@ window.addEventListener('load', function () {
     const hostedLinkEl = document.getElementById('hosted-link')
     let myFile
 
+    const resetPage = () => {
+        fileInputEl.value = ''
+        descriptionInputEl.value = ''; // reset displayed text 
+        submitBtn.setAttribute('disabled', true) // disable submit btn
+        img.setAttribute('src', '') // remove selected image
+        hostedLinkEl.innerText = '' // reset link text
+    }
+
+    const displayResults = (url) => {
+        img.setAttribute('src', url)
+        hostedLinkEl.setAttribute('href', url)
+        hostedLinkEl.innerText = `image is now hosted here`
+    }
+
 
     submitBtn.addEventListener('click', (e) => {
         e.preventDefault()
         if (!myFile) return
         const description = descriptionInputEl.value; // capture a value from form input
-        descriptionInputEl.value = ''; // reset displaved text
-        img.setAttribute('src', '') // remove selected image
-        hostedLinkEl.innerText = '' // reset link text
+        resetPage()
 
+        // create formData object & append all key: value pairs
         const formData = new FormData();
-
-        // append all form input values to formData object
         formData.append('myFile', myFile);
         formData.append('description', description);
         formData.append('item1', 'another item from the form');
@@ -28,11 +39,8 @@ window.addEventListener('load', function () {
         })
             .then(res => res.json())
             .then((data) => {
-                console.log(data) //display response
-                submitBtn.setAttribute('disabled', true)
-                img.setAttribute('src', data.url)
-                hostedLinkEl.setAttribute('href', data.url)
-                hostedLinkEl.innerText = `image is now hosted here`
+                console.log(data)
+                displayResults(data.url)
             })
             .catch(err => console.error(err))
     })

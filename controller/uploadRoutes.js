@@ -29,12 +29,14 @@ router.post('/upload', upload.single('myFile'), async ({ body, file }, res) => {
                 }
             );
 
+        const httpsUrl = `https://${url.split('://')[1]}` // convert http to https
+
         /**
          * the resourse is now hosted, send back the url to user.
          * if you'd like to save the url to a db, do this here
          */
 
-        res.json({ ...body, url }); // respond with url and  inital request body
+        res.json({ ...body, url: httpsUrl }); // respond with url and  inital request body
         // delete file from utils/_temp-image-store folder 
         unlink(pathToFile, (error) => {
             if (error) console.error(error)
