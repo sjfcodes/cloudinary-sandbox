@@ -13,10 +13,10 @@ cloudinary.config({
     secure: true
 });
 
-router.post('/upload', upload.single('myFile'), async (req, res) => {
-    // console.log(req.body); // req.body will hold the text fields appended to your formData object
-    // console.log(req.file); // req.file is the name of your file in the form above, here 'uploaded_file'
-    const { file: { filename, destination } } = req;
+router.post('/upload', upload.single('myFile'), async ({ body, file }, res) => {
+    console.log(req.body); // req.body will hold the text fields appended to your formData object
+    console.log(req.file); // req.file is the name of your file in the form above, here 'uploaded_file'
+    const { filename, destination } = file;
     const pathToFile = `${destination}/${filename}`;
     try {
         const { url } = await cloudinary.uploader
@@ -34,7 +34,7 @@ router.post('/upload', upload.single('myFile'), async (req, res) => {
          * if you'd like to save the url to a db, do this here
          */
 
-        res.json(url);
+        res.json({ ...body, url }); // respond with url and  inital request body
         // delete file from utils/_temp-image-store folder 
         unlink(pathToFile, (error) => {
             if (error) console.error(error)

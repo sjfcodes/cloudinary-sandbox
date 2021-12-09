@@ -1,6 +1,7 @@
 window.addEventListener('load', function () {
     const img = document.getElementById('img-preview');
     const fileInputEl = document.querySelector('input[name="my-file"]')
+    const descriptionInputEl = document.querySelector('input[name="my-description"]')
     const submitBtn = document.querySelector('input[type=submit]')
     const hostedLinkEl = document.getElementById('hosted-link')
     let myFile
@@ -9,22 +10,28 @@ window.addEventListener('load', function () {
     submitBtn.addEventListener('click', (e) => {
         e.preventDefault()
         if (!myFile) return
+        const description = descriptionInputEl.value; // capture a value from form input
+        descriptionInputEl.value = ''; // reset displaved text
         img.setAttribute('src', '') // remove selected image
         hostedLinkEl.innerText = '' // reset link text
 
         const formData = new FormData();
+
+        // append all form input values to formData object
         formData.append('myFile', myFile);
-        formData.append('item1', 'another item from the form')
+        formData.append('description', description);
+        formData.append('item1', 'another item from the form');
 
         fetch('/api/upload', {
             method: 'POST',
             body: formData
         })
             .then(res => res.json())
-            .then(url => {
-                console.log('success', url) //display hosted image
-                img.setAttribute('src', url)
-                hostedLinkEl.setAttribute('href', url)
+            .then((data) => {
+                console.log(data) //display response
+                submitBtn.setAttribute('disabled', true)
+                img.setAttribute('src', data.url)
+                hostedLinkEl.setAttribute('href', data.url)
                 hostedLinkEl.innerText = `image is now hosted here`
             })
             .catch(err => console.error(err))
