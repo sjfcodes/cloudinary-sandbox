@@ -1,13 +1,16 @@
 window.addEventListener('load', function () {
     const img = document.getElementById('img-preview');
     const fileInputEl = document.querySelector('input[name="my-file"]')
-    const submitBtn = this.document.querySelector('input[type=submit]')
+    const submitBtn = document.querySelector('input[type=submit]')
+    const hostedLinkEl = document.getElementById('hosted-link')
     let myFile
+
 
     submitBtn.addEventListener('click', (e) => {
         e.preventDefault()
         if (!myFile) return
-        img.setAttribute('src', '')
+        img.setAttribute('src', '') // remove selected image
+        hostedLinkEl.innerText = '' // reset link text
 
         const formData = new FormData();
         formData.append('myFile', myFile);
@@ -19,8 +22,10 @@ window.addEventListener('load', function () {
         })
             .then(res => res.json())
             .then(url => {
-                console.log('success', url)
+                console.log('success', url) //display hosted image
                 img.setAttribute('src', url)
+                hostedLinkEl.setAttribute('href', url)
+                hostedLinkEl.innerText = `image is now hosted here`
             })
             .catch(err => console.error(err))
     })
