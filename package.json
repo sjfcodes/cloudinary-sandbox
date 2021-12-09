@@ -1,0 +1,19 @@
+{
+  "name": "multer-file-uploading",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cloudinary": "^1.27.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "multer": "^1.4.4"
+  }
+}
