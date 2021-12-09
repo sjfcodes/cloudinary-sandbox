@@ -1,0 +1,13 @@
+#img-preview {
+    max-width: 400px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+}
+
+input, img {
+    margin-top: 1em;
+}

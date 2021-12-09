@@ -1,0 +1,18 @@
+{{!-- Here's an example on how multer is used an HTML form.
+Take special note of the
+enctype="multipart/form-data"
+and
+name="uploaded_file" fields: --}}
+
+{{!-- <form action="/api/upload" enctype="multipart/form-data" method="post"> --}}
+
+  <form>
+    <div class="form-group">
+      <input type="file" name="my-file">
+      <input type="text" name="my-description" placeholder="file description">
+      {{!-- img tag for displaying file to upload --}}
+
+      <input type="submit" value="Upload image to server" disabled>
+    </div>
+    <img id='img-preview'>
+  </form>
