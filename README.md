@@ -1,4 +1,4 @@
-# cloudinary + multer sandbox
+# cloudinary+multer sandbox
 
 Demo app for hosting an image on cloudinary.
 
