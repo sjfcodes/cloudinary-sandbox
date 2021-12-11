@@ -1,19 +1,47 @@
-{{!-- Here's an example on how multer is used an HTML form.
-Take special note of the
-enctype="multipart/form-data"
-and
-name="uploaded_file" fields: --}}
+<form>
 
-{{!-- <form action="/api/upload" enctype="multipart/form-data" method="post"> --}}
+  <section class="file has-name is-fullwidth is-right mb-3">
+    <label class="file-label">
+      <input class="file-input" type="file" name="my-file">
+      <span class="file-cta">
+        <span class="file-icon"><i class="fas fa-upload"></i></span>
+        <span class="file-label">Choose a file…</span>
+      </span>
+      <span class="file-name" id="file-name"></span>
+    </label>
+  </section>
 
-  <form>
-    <div class="form-group">
-      <input type="file" name="my-file">
-      <input type="text" name="my-description" placeholder="file description">
 
-      <input type="submit" value="Upload" disabled>
+  <section class="columns">
+
+    <div class="column">
+      <h6 class="is-size-7">preview content</h6>
+      <div class="border is-flex is-justify-content-center is-align-items-center is-fullheight p-4">
+        <a id="hosted-link" target="_blank"></a>
+        <img id='image-preview' class="is-hidden" />
+        <audio id='audio-preview' class="is-hidden"></audio>
+        <video id='video-preview' class="is-hidden"></video>
+      </div>
     </div>
 
-    {{!-- img tag for displaying file to upload --}}
-    <img id='img-preview'>
-  </form>
+    <div class="column is-one-half ">
+      <label class="is-size-7" for="my-description">file description</label>
+      <div>
+
+        <textarea class="textarea is-link" name="my-description" placeholder="optional" rows="3"></textarea>
+        <div class="field mt-5">
+          <label class="is-size-7" for="password">access password</label>
+          <p class="control has-icons-left">
+            <input class="input  is-danger mb-4" type="password" name="password" placeholder="required">
+            <span class="icon is-small is-left">
+              <i class="fas fa-lock"></i>
+            </span>
+          </p>
+        </div>
+        <button type="submit" class="button is-link is-fullwidth" disabled>Submit</button>
+      </div>
+    </div>
+
+  </section>
+
+</form>
